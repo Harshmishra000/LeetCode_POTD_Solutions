@@ -1,0 +1,22 @@
+class Solution {
+    public int[] maxSlidingWindow(int[] nums, int k) {
+        Stack<Integer> st = new Stack<>();
+        int ans[] = new int[nums.length-k+1];
+        int l = 0;
+       for(int i = 0; i<= nums.length-k; i++){
+            for(int j = i; j< i+k; j++){
+               st.push(nums[j]);
+            }
+            int max = Integer.MIN_VALUE;
+            for(int j = 0; j< st.size(); j++){
+                if(max < st.get(j)){
+                    max = st.get(j);
+                }
+            }
+            ans[l] = max;
+            l++;
+            st.clear();
+        }
+       return ans; 
+    }
+}
