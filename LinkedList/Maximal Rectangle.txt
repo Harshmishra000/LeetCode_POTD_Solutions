@@ -1,0 +1,59 @@
+class Solution {
+    public static int rectangleArea(int[]heights){
+        int n = heights.length;
+
+       int pse [] = new int[n];
+       Stack<Integer> st = new Stack<>();
+       for(int i = 0; i< n; i++){
+        while(!st.isEmpty() && heights[st.peek()] >= heights[i]){
+            st.pop();
+        }
+        if(st.isEmpty()){
+            pse[i] = -1;
+        }
+        else{
+            pse[i] = st.peek();
+        }
+        st.push(i);
+       }
+       st.clear();
+       int nse [] = new int[n];
+       for(int i = n-1; i >= 0; i--){
+        while(!st.isEmpty() && heights[st.peek()] >= heights[i]){
+            st.pop();
+        }
+        if(st.isEmpty()){
+            nse[i] = n;
+        }
+        else{
+            nse[i] = st.peek();
+        }
+        st.push(i);
+       }
+       int ans = 0;
+       for(int i = 0; i< n; i++){
+        int area = (nse[i] - pse[i]-1)*heights[i];
+        ans = Math.max(area, ans);
+       }
+       return ans;
+    }
+    public int maximalRectangle(char[][] matrix) {
+        int n = matrix.length;
+        int m = matrix[0].length;
+        int maxReactangle = 0;
+        int heights[] = new int[m];
+        for(int i = 0; i< n; i++){
+            for(int j = 0; j< m; j++){
+                if(matrix[i][j] == '1'){
+                    heights[j]++;
+                }
+                else{
+                    heights[j] = 0;
+                }
+            }
+            int rectangle = rectangleArea(heights);
+            maxReactangle = Math.max(rectangle, maxReactangle);
+        }
+        return maxReactangle;
+    }
+}
